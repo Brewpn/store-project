@@ -1,0 +1,89 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.button-with-border {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 2px 4px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.butt-login {
+  background-color: white;
+  color: #008cba;
+  border: 2px solid #008CBA;
+  border-radius: 5px;
+}
+
+.butt-login:hover {
+  background-color: #008CBA;
+  color: white;
+}
+
+.butt-logout {
+  background-color: white;
+  color: #ba0700;
+  border: 2px solid #ba0700;
+  border-radius: 5px;
+}
+
+.butt-logout:hover {
+  background-color: #ba0700;
+  color: white;
+}
+
+.brand-position {
+  margin-top: 4px;
+}
+
+.content {
+  margin-left: 15%;
+  margin-right: 15%;
+  padding: 15px;
+}
+
+.navbar-font-color {
+  color: #ffffff
+}
+
+.navbar-font-color:hover {
+  color: #96a8af;
+}
+
+body {
+  background-color: #eeeeee;
+}
+
