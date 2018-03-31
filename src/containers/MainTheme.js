@@ -6,7 +6,6 @@ import {
 } from '../actions'
 import NavBar from '../components/NavbarComponents/NavBar'
 
-        //TODO Auth
 
 class MainTheme extends Component {
     constructor(props) {
@@ -15,13 +14,13 @@ class MainTheme extends Component {
 
     }
 
-
     render () {
-        const { dispatch, isAuthenticated, errorMessage, isFetching } = this.props;
+        const { dispatch, isAuthenticated, errorMessage, isFetching, locationBeforeTransitions } = this.props;
 
         return (
             <div>
                 <NavBar
+                    routing={locationBeforeTransitions}
                     isFetching={isFetching}
                     isAuthenticated={isAuthenticated}
                     errorMessage={errorMessage}
@@ -35,6 +34,7 @@ class MainTheme extends Component {
 MainTheme.propTypes = {
     isFetching: PropTypes.bool.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
+    locationBeforeTransitions: PropTypes.object,
     errorMessage: PropTypes.string,
     dispatch: PropTypes.func.isRequired,
 };
@@ -42,8 +42,10 @@ MainTheme.propTypes = {
 function mapStateToProps(state) {
     const { auth } = state;
     const { isAuthenticated, isFetching, errorMessage } = auth;
+    const { locationBeforeTransitions } = state.routing;
 
     return {
+        locationBeforeTransitions,
         isFetching,
         isAuthenticated,
         errorMessage,

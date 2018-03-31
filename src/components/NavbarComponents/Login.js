@@ -18,17 +18,24 @@ export default class Login extends Component {
                             </button>
                         </div>
                         <div className="modal-body">
-                            <input type='text' ref='username' className="form-control" placeholder='Username'/>
-                            <input type='password' ref='password' className="form-control" placeholder='Password'/>
-                            <button
-                                onClick={(event) => this.handleClick(event)}
-                                className={isFetching? "btn btn-primary disabled" : "btn btn-primary"}>
-                                Login
-                            </button>
-
+                            <div className="form-group">
+                                <label style={{marginLeft: "2px"}}>Email address</label>
+                                <input type='text' ref='username' className="form-control" placeholder='Username'/>
+                            </div>
+                            <div className="form-group">
+                                <label style={{marginLeft: "2px"}}>Password</label>
+                                <input type='password' ref='password' className="form-control" placeholder='Password'/>
+                            </div>
                             {errorMessage &&
                             <p>{errorMessage}</p>
                             }
+                            <button
+                                onClick={(event) => this.handleClick(event)}
+                                className={isFetching? "btn btn-outline-dark disabled" : "btn btn-outline-dark"}>
+                                Login
+                            </button>
+
+
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>

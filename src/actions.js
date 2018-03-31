@@ -1,4 +1,8 @@
 import fetch from 'cross-fetch'
+import { sessionService } from 'redux-react-session';
+import { Authorize } from './api/auth'
+
+const BASE_URL = 'https://bookey-st.herokuapp.com';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -23,11 +27,12 @@ function requestLogin() {
     }
 }
 
-function receiveLogin() {
+function receiveLogin(user) {
     return {
         type: LOGIN_SUCCESS,
         isFetching: false,
         isAuthenticated: true,
+        user
     }
 }
 
@@ -40,35 +45,72 @@ function loginError(message) {
     }
 }
 
-export function loginUser(creds) {
+export function loginUser(creds, history) {
 
-    let config = {
-        method: 'POST',
-        headers: { 'Content-Type':'application/x-www-form-urlencoded' },
-        body: `username=${creds.username}&password=${creds.password}`
-    };
 
-    return dispatch => {
+    return (dispatch) => {
 
         dispatch(requestLogin());
 
-        return fetch(`${process.env.BASE_URL}/`, config)
-            .then(response =>
-                response.json().then(user => ({ user, response }))
-            ).then(({ user, response }) =>  {
-                if (!response.ok) {
-                    dispatch(loginError(user.message));
-                    return Promise.reject(user)
-                } else {
+        return Authorize.login(creds).then(response => {
+            if (!response.ok) {
+                dispatch(loginError('Wrong email ar password'));
+                return Promise.reject(response)
+            }
 
-                    localStorage.setItem('id_token', user.tokens.id_token);
-                    localStorage.setItem('access_token', user.tokens.access_token);
-
-                    dispatch(receiveLogin(user))
-                }
-            }).catch(err => console.log("Error: ", err))
-    }
+            return response.json();
+        })
+            .then(user => {
+                dispatch(receiveLogin(user))
+            });
+    };
 }
+
+export function logoutUser (history) {
+    return (dispatch) => {
+        return Authorize.logout().then(() => {
+            dispatch(requestLogout());
+            dispatch(receiveLogout());
+            sessionService.deleteSession();
+            sessionService.deleteUser();
+            history.replace('/login');
+        }).catch(err => {
+            throw (err);
+        });
+    };
+}
+
+// export function loginUser(creds) {
+//
+//     let config = {
+//         method: 'POST',
+//         headers: { 'Content-Type':'application/x-www-form-urlencoded' },
+//         body: `email=${creds.username}&password=${creds.password}`
+//     };
+//
+//     return dispatch => {
+//
+//         dispatch(requestLogin());
+//
+//         return fetch(`${BASE_URL}/cms/auth/login`, config)
+//             .then(response => {
+//                 if (!response.ok) {
+//                     dispatch(loginError('Wrong email ar password'));
+//                     return Promise.reject(response)
+//                 }
+//                 return response.json()
+//             }).then((user) =>  {
+//                 dispatch(receiveLogin(user))
+//             }).catch(err => console.log("Error: ", err))
+//     }
+// }
+//
+// export function logoutUser() {
+//     return dispatch => {
+//         dispatch(requestLogout());
+//         dispatch(receiveLogout())
+//     }
+// }
 
 function requestLogout() {
     return {
@@ -86,14 +128,7 @@ function receiveLogout() {
     }
 }
 
-export function logoutUser() {
-    return dispatch => {
-        dispatch(requestLogout());
-        localStorage.removeItem('id_token');
-        localStorage.removeItem('access_token');
-        dispatch(receiveLogout())
-    }
-}
+
 
 //PIE CHART
 
@@ -127,3 +162,5 @@ function selectDataForChart(selectedType) {
         selectedType
     }
 }
+
+
