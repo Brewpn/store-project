@@ -76,11 +76,15 @@
 }
 
 .navbar-font-color {
-  color: #ffffff
+  color: #ffffff;
+  border-radius: 5px;
 }
 
 .navbar-font-color:hover {
-  color: #96a8af;
+  color: #0E2431;
+  background-color: #ffffff;
+  -webkit-transition-duration: 0.2s; /* Safari */
+  transition-duration: 0.2s;
 }
 
 body {

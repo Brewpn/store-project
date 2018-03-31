@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 export default class Login extends Component {
 
     render() {
-        const { errorMessage } = this.props;
+        const { errorMessage, isFetching } = this.props;
 
         return (
 
@@ -20,7 +20,9 @@ export default class Login extends Component {
                         <div className="modal-body">
                             <input type='text' ref='username' className="form-control" placeholder='Username'/>
                             <input type='password' ref='password' className="form-control" placeholder='Password'/>
-                            <button onClick={(event) => this.handleClick(event)} className="btn btn-primary">
+                            <button
+                                onClick={(event) => this.handleClick(event)}
+                                className={isFetching? "btn btn-primary disabled" : "btn btn-primary"}>
                                 Login
                             </button>
 
@@ -38,6 +40,7 @@ export default class Login extends Component {
     }
 
     handleClick(event) {
+        event.preventDefault();
         const username = this.refs.username;
         const password = this.refs.password;
         const creds = { username: username.value.trim(), password: password.value.trim() };
@@ -47,5 +50,6 @@ export default class Login extends Component {
 
 Login.propTypes = {
     onLoginClick: PropTypes.func.isRequired,
+    isFetching: PropTypes.bool.isRequired,
     errorMessage: PropTypes.string
 };

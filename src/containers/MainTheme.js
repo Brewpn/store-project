@@ -17,11 +17,12 @@ class MainTheme extends Component {
 
 
     render () {
-        const { dispatch, isAuthenticated, errorMessage } = this.props;
+        const { dispatch, isAuthenticated, errorMessage, isFetching } = this.props;
 
         return (
             <div>
                 <NavBar
+                    isFetching={isFetching}
                     isAuthenticated={isAuthenticated}
                     errorMessage={errorMessage}
                     dispatch={dispatch}

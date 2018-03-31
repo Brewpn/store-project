@@ -15,15 +15,17 @@ export default class NavBar extends Component {
     }
 
     render() {
-        const { dispatch, isAuthenticated, errorMessage } = this.props;
+        const { dispatch, isAuthenticated, errorMessage, isFetching } = this.props;
 
         return (
             <div>
 
                 <Login
                     errorMessage={errorMessage}
-                    onLoginClick={creds => dispatch(loginUser(creds))}/>
-                <nav className="navbar navbar-expand-lg navbar-expand-sm sticky-top"
+                    onLoginClick={creds => dispatch(loginUser(creds))}
+                    isFetching={isFetching}/>
+
+                <nav className="navbar navbar-expand-lg navbar-expand-sm"
                      style={{
                          backgroundColor: "#0E2431",
                          paddingLeft: "10%",
@@ -72,5 +74,6 @@ export default class NavBar extends Component {
 NavBar.propTypes = {
     dispatch: PropTypes.func.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
+    isFetching: PropTypes.bool.isRequired,
     errorMessage: PropTypes.string
 };

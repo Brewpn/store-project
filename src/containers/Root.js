@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { syncHistoryWithStore } from 'react-router-redux'
-import { Router, Route } from 'react-router'
+import { Router, Route, Switch } from 'react-router'
 import { Provider } from 'react-redux'
 import browserHistory from '../browserHistory'
 import configureStore from '../configureStore'
@@ -11,14 +11,21 @@ import Dashboard from './Dashboard'
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
 
+const PrimaryLayout = () => (
+    <div>
+        <Route component={MainTheme} />
+        <Switch>
+            <Route path="/Dashboard" component={Dashboard} />
+        </Switch>
+    </div>
+);
+
 export default class Root extends Component {
     render() {
         return (
             <Provider store={store}>
                 <Router history={history}>
-                    <Route component={MainTheme}>
-                        <Route path="/" component={Dashboard} />
-                    </Route>
+                    <PrimaryLayout/>
                 </Router>
             </Provider>
         )
