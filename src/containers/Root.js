@@ -6,7 +6,7 @@ import browserHistory from '../browserHistory'
 import configureStore from '../configureStore'
 import { sessionService } from 'redux-react-session';
 
-import
+import BookContainer from './BookContainer'
 import MainTheme from './MainTheme'
 import Dashboard from './Dashboard'
 
@@ -18,8 +18,8 @@ const PrimaryLayout = () => (
     <div>
         <Route component={MainTheme} />
         <Switch>
-            <Route path="/Dashboard" component={Dashboard} />
-            <Route path="/Books" component={} />
+
+            <Route path="/Books" component={BookContainer} />
         </Switch>
     </div>
 );

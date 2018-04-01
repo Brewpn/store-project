@@ -87,6 +87,20 @@
   transition-duration: 0.2s;
 }
 
+.butt-font-color {
+  color: #0e2431;
+  border-radius: 5px;
+  padding-right: 13px;
+  padding-left: 13px;
+}
+
+.butt-font-color:hover {
+  color: #ffffff;
+  background-color: #0e2431;
+  -webkit-transition-duration: 0.2s; /* Safari */
+  transition-duration: 0.2s;
+}
+
 .content-block {
   background-color: #fafafa;
   border: 20px #7f7f7f;

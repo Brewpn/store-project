@@ -1,8 +1,22 @@
 import fetch from 'cross-fetch'
 import { sessionService } from 'redux-react-session';
 import { Authorize } from './api/auth'
+import { AxiosCategories, AxiosBooks } from './api/booksAndCategories'
 
 const BASE_URL = 'https://bookey-st.herokuapp.com';
+
+export const BOOK_SEARCH = 'BOOK_SEARCH';
+export const BOOK_SEARCH_REQUEST = 'BOOK_SEARCH_REQUEST';
+export const BOOK_SEARCH_SUCCESS = 'BOOK_SEARCH_SUCCESS';
+export const BOOK_SEARCH_FAILURE = 'BOOK_SEARCH_FAILURE';
+
+export const CATEGORY_LIST_FETCH = 'CATEGORY_LIST_FETCH';
+export const CATEGORY_ADD = 'CATEGORY_ADD';
+export const CATEGORY_EDIT = 'CATEGORY_EDIT';
+export const CATEGORY_DELETE = 'CATEGORY_DELETE';
+export const CATEGORY_FAILURE = 'CATEGORY_FAILURE';
+
+export const CATEGORY_SELECT = 'CATEGORY_SELECT';
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
@@ -16,6 +30,130 @@ export const PIE_CHART_SUCCESS = 'PIE_CHART_SUCCESS';
 export const PIE_CHART_FAILURE = 'PIE_CHART_FAILURE';
 
 export const SELECT_DATA_FOR_CHART = "SELECT_DATA_FOR_CHART";
+
+//BOOKS
+
+function searchBook (searchString) {
+    return {
+        type: BOOK_SEARCH,
+        searchString
+    }
+}
+
+function requestBooks() {
+    return {
+        type: BOOK_SEARCH_REQUEST,
+        isFetching:true,
+    }
+}
+
+function receiveBooks(books) {
+    return {
+        type: BOOK_SEARCH_SUCCESS,
+        isFetching: false,
+        books
+    }
+}
+
+function bookError (errorMessage) {
+    return {
+        type: BOOK_SEARCH_FAILURE,
+        isFetching: false,
+        errorMessage
+    }
+}
+
+export function searchBookByTitle(book) {
+
+
+    return (dispatch) => {
+
+        dispatch(requestBooks(book));
+
+        return AxiosBooks.search(book).then(response => {
+            console.log(response);
+            if (!response.ok) {
+                dispatch(bookError(response.ok));
+                return Promise.reject(response)
+            }
+
+            return response.json();
+        })
+            .then(data => {
+                dispatch(receiveBooks(data))
+            });
+    };
+}
+
+//CATEGORIES
+
+function categoryFailure (errorMessage) {
+    return {
+        type: CATEGORY_FAILURE,
+        errorMessage
+    }
+}
+
+export function selectCategory (category) {
+    return {
+        type: CATEGORY_SELECT,
+        category
+    }
+}
+
+function categoryAdd (category) {
+    return {
+        type: CATEGORY_ADD,
+        category
+    }
+}
+
+function categoryDelete (category) {
+    return {
+        type: CATEGORY_DELETE,
+        category
+    }
+}
+
+function categoryListOut (categories, page) {
+    return {
+        type: CATEGORY_LIST_FETCH,
+        categories,
+        page
+    }
+}
+
+function categoryEdit (category, newCategory) {
+    return {
+        type: CATEGORY_EDIT,
+        category,
+        newCategory
+    }
+}
+
+export function createCategory(creds) {
+    return (dispatch) => {
+        return AxiosCategories.add(creds)
+            .then(response => response.data)
+            .then(category => {
+                dispatch(categoryAdd(category))
+            })
+            .catch(error => {dispatch(categoryFailure('Please write title and description'))})
+    }
+}
+
+export function getCategories (page = 1) {
+    return (dispatch) => {
+
+        return AxiosCategories.get(page)
+            .then(response => response.data)
+            .then(categories => {
+                dispatch(categoryListOut(categories, page));
+            })
+            .catch(error => {dispatch(categoryFailure('Oups, something went wrong'))})
+
+    }
+}
 
 //LOGIN ACTIONS
 

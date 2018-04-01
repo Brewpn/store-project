@@ -58,6 +58,11 @@ export default class NavBar extends Component {
                                     to="/Dashboard"
                                     className="nav-link navbar-font-color">Dashboard</Link>
                             </li>
+                            <li className="nav-item active">
+                                <Link
+                                    to="/Books"
+                                    className="nav-link navbar-font-color">Books</Link>
+                            </li>
                         </ul>
                         <form className="form-inline my-2 my-lg-0">
                             {!isAuthenticated &&
