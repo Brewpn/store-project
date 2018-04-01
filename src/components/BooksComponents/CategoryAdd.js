@@ -37,16 +37,17 @@ export default class CategoryAdd extends Component {
                                 <form className="px-4 py-3">
                                     <div className="form-group">
                                         <label >Title</label>
-                                        <input type="text" ref="title" className="form-control" id="exampleDropdownFormEmail1" />
+                                        <input type="text" ref="title" className="form-control" id="exampleDropdownFormEmail1" placeholder="Type some title" />
                                     </div>
                                     <div className="form-group">
                                         <label >Description</label>
                                         <textarea className="form-control" ref="description" id="exampleFormControlTextarea1" rows="3" />
                                     </div>
-
+                                    <label>{errorMessage}</label>
                                 </form>
+
                             </div>
-                            <label>{errorMessage}</label>
+
                             <div className="modal-footer">
                                 <button
                                     onClick={event => this.handleClick(event)}

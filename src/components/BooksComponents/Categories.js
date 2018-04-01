@@ -41,14 +41,31 @@ export default class Categories extends Component {
                             onClick={(event) => this.handleClickMinus(event)}>
                             &laquo;
                         </button>
-                    {
-                        categories.map(category => (
-                            <Category
-                                onCategoryClick={creds => dispatch(selectCategory(creds))}
-                                key={category._id}
-                                category={category}/>
-                        ))
-                    }
+                            <div className="btn-group">
+                                {
+                                    categories.map(category => (
+                                        <Category
+                                            onCategoryClick={creds => dispatch(selectCategory(creds))}
+                                            key={category._id}
+                                            category={category}/>
+                                    ))
+                                }
+
+                                <form className="dropdown-menu p-4">
+                                    <div className="form-group">
+                                        <h4>{selectedCategory ? selectedCategory.title : " "}</h4>
+
+                                    </div>
+                                    <div className="form-group">
+                                        { selectedCategory ? selectedCategory.description : " " }
+                                    </div>
+                                    <button
+                                        type="button"
+                                        className="btn btn-outline-dark">
+                                        Edit
+                                    </button>
+                                </form>
+                            </div>
                         <button
                             type="button"
                             className="btn btn-secondary"
@@ -56,9 +73,10 @@ export default class Categories extends Component {
                             &raquo;
                         </button>
                         </div>
+
                 </div>
                 {selectedCategory &&
-                    <div className="collapse multi-collapse" id="collapseExample">
+                    <div className="collapse multi-collapse" id="collapseCategory">
                         <div className="card card-body">
                             <h4>{selectedCategory.title}</h4>
                             {selectedCategory.description}
@@ -77,3 +95,4 @@ Categories.propTypes = {
     selectedCategory: PropTypes.object,
     categories: PropTypes.array.isRequired
 };
+

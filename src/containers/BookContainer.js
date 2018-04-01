@@ -2,11 +2,13 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
-    getCategories
+    getCategories,
+    selectCategory
 } from '../actions'
 import Categories from '../components/BooksComponents/Categories'
 import BookSearch from '../components/BooksComponents/BookSearch'
-
+import BookSearchElement from '../components/BooksComponents/BookSearchElement'
+import BooksOutputComponent from '../components/BooksComponents/BooksOutputComponent'
 
 class Dashboard extends Component {
     constructor(props) {
@@ -20,7 +22,7 @@ class Dashboard extends Component {
     }
 
     render () {
-        const { categories, selectedCategory, dispatch, page, errorMessage } = this.props;
+        const { categories, selectedCategory, dispatch, page, errorMessage, books, isFetching } = this.props;
 
         return (
             <div className="container">
@@ -40,8 +42,20 @@ class Dashboard extends Component {
                         <div>
                             <BookSearch
                                 dispatch={dispatch}/>
+                            <div className="collapse" id="collapseSearch">
+                                { isFetching ? '' : books.map(book => (
+                                    <BookSearchElement
+                                        key={book._id}
+                                        book={book}/>
+                                )) }
+                            </div>
                         </div>
                     </div>
+                    <BooksOutputComponent
+                        isFetching={isFetching}
+                        books={books}
+                        selectedCategory={selectedCategory}
+                        dispatch={dispatch}/>
 
                 </div>
             </div>
@@ -50,6 +64,8 @@ class Dashboard extends Component {
 }
 
 Dashboard.propTypes = {
+    books: PropTypes.array,
+    isFetching: PropTypes.bool.isRequired,
     page: PropTypes.number.isRequired,
     categories: PropTypes.array.isRequired,
     selectedCategory: PropTypes.object,
@@ -58,14 +74,20 @@ Dashboard.propTypes = {
 };
 
 function mapStateToProps (state) {
+    const { selectedCategory, } = state;
     const {
         data: categories,
         page,
-        selectedCategory,
         errorMessage
     } = state.categories;
+    const {
+        data: books,
+        isFetching,
+    } = state.books;
 
     return {
+        isFetching,
+        books,
         errorMessage,
         page,
         selectedCategory,

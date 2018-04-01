@@ -12,7 +12,12 @@ export const AxiosCategories = {
 
     get (page, count = 3) {
         return axios.get(`${BASE_URL}/cms/category/list?page=${page}&count=${count}`)
-    }
+    },
+
+    edit (creds) {
+
+        return axios.put(`${BASE_URL}/cms/category/${creds._id}`, {...creds});
+    },
 };
 
 export const AxiosBooks = {
@@ -33,5 +38,9 @@ export const AxiosBooks = {
         return axios.get(`${BASE_URL}/cms/book/list`)
             .then(response => response.data)
             .catch(error => error)
-    }
+    },
+
+    getImage (image) {
+        return axios.get(`${BASE_URL}/mobile/image?filename=${image}`)
+    },
 };

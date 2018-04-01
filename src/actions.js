@@ -1,9 +1,13 @@
 import fetch from 'cross-fetch'
-import { sessionService } from 'redux-react-session';
-import { Authorize } from './api/auth'
-import { AxiosCategories, AxiosBooks } from './api/booksAndCategories'
+import {sessionService} from 'redux-react-session';
+import {Authorize} from './api/auth'
+import {AxiosCategories, AxiosBooks} from './api/booksAndCategories'
 
 const BASE_URL = 'https://bookey-st.herokuapp.com';
+
+export const BOOK_OUTPUT_REQUEST = 'BOOK_OUTPUT_REQUEST';
+export const BOOK_OUTPUT_SUCCESS = 'BOOK_OUTPUT_SUCCESS';
+export const BOOK_OUTPUT_FAILURE = 'BOOK_OUTPUT_FAILURE';
 
 export const BOOK_SEARCH = 'BOOK_SEARCH';
 export const BOOK_SEARCH_REQUEST = 'BOOK_SEARCH_REQUEST';
@@ -31,9 +35,11 @@ export const PIE_CHART_FAILURE = 'PIE_CHART_FAILURE';
 
 export const SELECT_DATA_FOR_CHART = "SELECT_DATA_FOR_CHART";
 
-//BOOKS
+//BOOKS OUTPUT
 
-function searchBook (searchString) {
+//BOOKS SEARCH
+
+function searchBook(searchString) {
     return {
         type: BOOK_SEARCH,
         searchString
@@ -43,7 +49,7 @@ function searchBook (searchString) {
 function requestBooks() {
     return {
         type: BOOK_SEARCH_REQUEST,
-        isFetching:true,
+        isFetching: true,
     }
 }
 
@@ -55,7 +61,7 @@ function receiveBooks(books) {
     }
 }
 
-function bookError (errorMessage) {
+function bookError(errorMessage) {
     return {
         type: BOOK_SEARCH_FAILURE,
         isFetching: false,
@@ -70,15 +76,15 @@ export function searchBookByTitle(book) {
 
         dispatch(requestBooks(book));
 
-        return AxiosBooks.search(book).then(response => {
-            console.log(response);
-            if (!response.ok) {
-                dispatch(bookError(response.ok));
-                return Promise.reject(response)
-            }
+        return AxiosBooks.search(book)
+            .then(response => {
+                if (response.data.length === 0) {
+                    dispatch(bookError('No books with that title'));
+                    return Promise.reject(response)
+                }
 
-            return response.json();
-        })
+                return response.data;
+            })
             .then(data => {
                 dispatch(receiveBooks(data))
             });
@@ -87,35 +93,35 @@ export function searchBookByTitle(book) {
 
 //CATEGORIES
 
-function categoryFailure (errorMessage) {
+function categoryFailure(errorMessage) {
     return {
         type: CATEGORY_FAILURE,
         errorMessage
     }
 }
 
-export function selectCategory (category) {
+export function selectCategory(category) {
     return {
         type: CATEGORY_SELECT,
         category
     }
 }
 
-function categoryAdd (category) {
+function categoryAdd(category) {
     return {
         type: CATEGORY_ADD,
         category
     }
 }
 
-function categoryDelete (category) {
+function categoryDelete(category) {
     return {
         type: CATEGORY_DELETE,
         category
     }
 }
 
-function categoryListOut (categories, page) {
+function categoryListOut(categories, page) {
     return {
         type: CATEGORY_LIST_FETCH,
         categories,
@@ -123,11 +129,27 @@ function categoryListOut (categories, page) {
     }
 }
 
-function categoryEdit (category, newCategory) {
+function categoryEdit(newCategory) {
     return {
         type: CATEGORY_EDIT,
-        category,
         newCategory
+    }
+}
+
+export function axiosEditCategory(creds) {
+    return (dispatch) => {
+        return AxiosCategories.edit(creds)
+            .then(response => response.data)
+            .then(res => {
+                if (res.message === "Done") {
+                    return dispatch(categoryEdit(creds));
+                }
+
+                return res.message
+            })
+            .catch(error => {
+                dispatch(categoryFailure('Something went wrong'))
+            })
     }
 }
 
@@ -138,11 +160,13 @@ export function createCategory(creds) {
             .then(category => {
                 dispatch(categoryAdd(category))
             })
-            .catch(error => {dispatch(categoryFailure('Please write title and description'))})
+            .catch(error => {
+                dispatch(categoryFailure('Please write title and description'))
+            })
     }
 }
 
-export function getCategories (page = 1) {
+export function getCategories(page = 1) {
     return (dispatch) => {
 
         return AxiosCategories.get(page)
@@ -150,7 +174,9 @@ export function getCategories (page = 1) {
             .then(categories => {
                 dispatch(categoryListOut(categories, page));
             })
-            .catch(error => {dispatch(categoryFailure('Oups, something went wrong'))})
+            .catch(error => {
+                dispatch(categoryFailure('Oups, something went wrong'))
+            })
 
     }
 }
@@ -204,7 +230,7 @@ export function loginUser(creds, history) {
     };
 }
 
-export function logoutUser (history) {
+export function logoutUser(history) {
     return (dispatch) => {
         return Authorize.logout().then(() => {
             dispatch(requestLogout());
@@ -265,7 +291,6 @@ function receiveLogout() {
         isAuthenticated: false
     }
 }
-
 
 
 //PIE CHART

@@ -9,11 +9,7 @@ export default class Categories extends Component {
         return (
             <button
                 type="button"
-                className="btn btn-secondary"
-                data-toggle="collapse"
-                data-target="#collapseExample"
-                aria-expanded="true"
-                aria-controls="collapseExample"
+                className="btn btn-secondary dropdown-toggle-split"
                 onClick={(event) => this.handleClick(event, category)}>
                 {category.title}
             </button>

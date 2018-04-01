@@ -8,7 +8,7 @@ import {
 } from '../actions'
 import _ from 'lodash'
 
-export default function categories(state = {
+export function categories(state = {
     page: 1,
     searchCategoryTitle: '',
     data: []
@@ -29,15 +29,25 @@ export default function categories(state = {
                 state,
                 _.remove(state.data, () => action.category)
             );
-        case CATEGORY_SELECT:
-            return Object.assign({}, state, {
-                selectedCategory: action.category
-            });
+        case CATEGORY_EDIT:
+            return Object.assign({},
+                state,
+                _.update(state, `data[${_.findIndex(state.data, {'_id': action.newCategory._id})}]`, () => action.newCategory),
+            );
         case CATEGORY_FAILURE:
             return Object.assign({}, state, {
                 errorMessage: action.errorMessage
             });
         default:
             return state
+    }
+}
+
+export function selectedCategory(state = {}, action) {
+    switch (action.type) {
+        case CATEGORY_SELECT:
+            return action.category;
+        default:
+            return state;
     }
 }
