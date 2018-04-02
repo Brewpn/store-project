@@ -30,7 +30,7 @@ export default class NavBar extends Component {
 
                 <Login
                     errorMessage={errorMessage}
-                    onLoginClick={creds => dispatch(loginUser(creds))}
+                    dispatch={dispatch}
                     isFetching={isFetching}/>
 
                 <nav className="navbar navbar-expand-lg navbar-expand-sm"

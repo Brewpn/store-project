@@ -1,4 +1,4 @@
-import fetch from 'cross-fetch'
+import axios from 'axios'
 import {sessionService} from 'redux-react-session';
 import {Authorize} from './api/auth'
 import {AxiosCategories, AxiosBooks} from './api/booksAndCategories'
@@ -254,23 +254,24 @@ function loginError(message) {
     }
 }
 
-export function loginUser(creds, history) {
+export function loginUser(creds) {
 
 
     return (dispatch) => {
 
         dispatch(requestLogin());
 
-        return Authorize.login(creds).then(response => {
-            if (response.status === 401) {
-                dispatch(loginError('Wrong email ar password'));
-                return Promise.reject(response)
-            }
+        return Authorize.login(creds)
+            .then(response => {
+                if (response.status === 401) {
+                    dispatch(loginError('Wrong email ar password'));
+                    return Promise.reject(response)
+                }
 
-            return response.data;
-        })
-            .then(user => {
-                dispatch(receiveLogin(user))
+                return response.data;
+            })
+            .then(data => {
+                dispatch(receiveLogin(data))
             });
     };
 }
