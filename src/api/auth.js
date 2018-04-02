@@ -6,7 +6,7 @@ const BASE_URL = 'https://localhost:3000';
 export const Authorize = {
 
     login (creds) {
-        return axios.post(`${BASE_URL}/cms/auth/login`, {
+        return axios.post(`/cms/auth/login`, {
             email: creds.username,
             password: creds.password
         })

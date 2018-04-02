@@ -13,7 +13,33 @@ const app = express();
 app.use(cors());
 
 switch (env) {
+    case 'development' :
+        const webpack = require('webpack');
+        const webpackConfig = require('./../webpack.config');
+        const compiler = webpack(webpackConfig);
 
+        app.use(require('webpack-dev-middleware')(compiler, {
+            withCredentials: false,
+            noInfo         : false,
+            quiet          : false,
+            lazy           : false,
+
+            watchOptions: {
+                aggregateTimeout: 300,
+                poll            : true
+            },
+
+            stats: {
+                colors: true
+            }
+        }));
+
+        app.use(require('webpack-hot-middleware')(compiler));
+
+        const markupPath = path.join(workingDirectory, 'markup').normalize();
+
+        app.use('/', express.static(markupPath));
+        break;
 
     default :
         const buildAppPath = path.join(workingDirectory, '/build').normalize();
