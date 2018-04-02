@@ -27,13 +27,8 @@ export default class Login extends Component {
 
 
     handleSubmit(event) {
-        // event.preventDefault();
-        // const username = this.refs.username;
-        // const password = this.refs.password;
-        // const creds = { username: username.value.trim(), password: password.value.trim() };
-        // this.props.dispatch(loginUser(creds))
 
-        //event.preventDefault();
+        event.preventDefault();
 
         this.setState({ submitted: true });
         const { username, password } = this.state;

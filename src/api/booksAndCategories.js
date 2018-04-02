@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_URL = 'https://bookey-st.herokuapp.com';
+const BASE_URL = 'https://localhost:3000';
 
 export const AxiosCategories = {
     add (creds) {

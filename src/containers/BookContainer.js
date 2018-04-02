@@ -11,7 +11,7 @@ import BookSearch from '../components/BooksComponents/BookSearch'
 import BookSearchElement from '../components/BooksComponents/BookSearchElement'
 import BooksOutputComponent from '../components/BooksComponents/BooksOutputComponent'
 
-class Dashboard extends Component {
+class BookContainer extends Component {
     constructor(props) {
         super(props);
 
@@ -65,7 +65,7 @@ class Dashboard extends Component {
     }
 }
 
-Dashboard.propTypes = {
+BookContainer.propTypes = {
     books: PropTypes.array,
     allBooks: PropTypes.array,
     isFetchingSearch: PropTypes.bool.isRequired,
@@ -105,4 +105,4 @@ function mapStateToProps (state) {
     }
 }
 
-export default connect(mapStateToProps)(Dashboard)
+export default connect(mapStateToProps)(BookContainer)
