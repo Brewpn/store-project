@@ -7,7 +7,7 @@ import {
 } from '../../actions'
 import '../../App.css'
 
-import browserHistory from '../../browserHistory'
+import history from '../../browserHistory'
 import Login from './Login';
 import Logout from './Logout'
 
@@ -15,11 +15,11 @@ export default class NavBar extends Component {
     constructor (props) {
         super(props);
 
+        this.handleLink = this.handleLink.bind(this);
     }
 
-    componentWillReceiveProps(nextProps) {
-
-            document.location.href = nextProps.routing.pathname;
+    handleLink (e) {
+        window.location.href = this.props.routing.locationBeforeTransitions.pathname;
     }
 
     render() {
@@ -56,11 +56,13 @@ export default class NavBar extends Component {
                             <li className="nav-item active">
                                 <Link
                                     to="/Dashboard"
+                                    onClick={this.handleLink}
                                     className="nav-link navbar-font-color">Dashboard</Link>
                             </li>
                             <li className="nav-item active">
                                 <Link
                                     to="/Books"
+                                    onClick={this.handleLink}
                                     className="nav-link navbar-font-color">Books</Link>
                             </li>
                         </ul>

@@ -5,10 +5,15 @@ import {
 } from '../../actions'
 
 export default class BookSearchElement extends Component {
+    constructor (props) {
+        super(props);
+
+    }
+
 
     render() {
         const {book} = this.props;
-
+        console.log(book);
         return (
             <div className="card card-body">
                 <div className="media">

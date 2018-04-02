@@ -37,6 +37,51 @@ export const SELECT_DATA_FOR_CHART = "SELECT_DATA_FOR_CHART";
 
 //BOOKS OUTPUT
 
+function requestAllBooks() {
+    return {
+        type: BOOK_OUTPUT_REQUEST,
+        isFetching: true,
+    }
+}
+
+function receiveAllBooks(books) {
+    return {
+        type: BOOK_OUTPUT_SUCCESS,
+        isFetching: false,
+        books
+    }
+}
+
+function allBookError(errorMessage) {
+    return {
+        type: BOOK_OUTPUT_FAILURE,
+        isFetching: false,
+        errorMessage
+    }
+}
+
+export function outputBookByCategory(category) {
+
+
+    return (dispatch) => {
+
+        dispatch(requestAllBooks());
+
+        return AxiosBooks.get(category)
+            .then(response => {
+                if (response.data.length === 0) {
+                    dispatch(allBookError('No books in that category'));
+                    return Promise.reject(response)
+                }
+
+                return response.data;
+            })
+            .then(data => {
+                dispatch(receiveAllBooks(data))
+            });
+    };
+}
+
 //BOOKS SEARCH
 
 function searchBook(searchString) {
@@ -217,12 +262,12 @@ export function loginUser(creds, history) {
         dispatch(requestLogin());
 
         return Authorize.login(creds).then(response => {
-            if (!response.ok) {
+            if (response.status === 401) {
                 dispatch(loginError('Wrong email ar password'));
                 return Promise.reject(response)
             }
 
-            return response.json();
+            return response.data;
         })
             .then(user => {
                 dispatch(receiveLogin(user))

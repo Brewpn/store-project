@@ -34,13 +34,12 @@ export const AxiosBooks = {
         return axios.get(`${BASE_URL}/cms/book/list?search=${book}&page=1&count=3`);
     },
 
-    get (book) {
-        return axios.get(`${BASE_URL}/cms/book/list`)
-            .then(response => response.data)
-            .catch(error => error)
+    get (category) {
+        return axios.get(`${BASE_URL}/cms/book/list?page=1&count=15`, {
+            filter: {
+                category: ['5abfba10c6d5492671c75637]']
+            }
+        })
     },
 
-    getImage (image) {
-        return axios.get(`${BASE_URL}/mobile/image?filename=${image}`)
-    },
 };

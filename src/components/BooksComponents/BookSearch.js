@@ -6,6 +6,10 @@ import {
 
 
 export default class BookSearch extends Component {
+    constructor (props) {
+        super(props)
+    }
+
 
     render () {
 

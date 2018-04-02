@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
     getCategories,
-    selectCategory
+    selectCategory,
+    outputBookByCategory
 } from '../actions'
 import Categories from '../components/BooksComponents/Categories'
 import BookSearch from '../components/BooksComponents/BookSearch'
@@ -19,10 +20,11 @@ class Dashboard extends Component {
 
     componentWillMount () {
         this.props.dispatch(getCategories());
+        this.props.dispatch(outputBookByCategory());
     }
 
     render () {
-        const { categories, selectedCategory, dispatch, page, errorMessage, books, isFetching } = this.props;
+        const { categories, selectedCategory, dispatch, page, errorMessage, books, isFetchingSearch,isFetchingOutput, allBooks } = this.props;
 
         return (
             <div className="container">
@@ -43,7 +45,7 @@ class Dashboard extends Component {
                             <BookSearch
                                 dispatch={dispatch}/>
                             <div className="collapse" id="collapseSearch">
-                                { isFetching ? '' : books.map(book => (
+                                { isFetchingSearch ? '' : books.map(book => (
                                     <BookSearchElement
                                         key={book._id}
                                         book={book}/>
@@ -52,8 +54,8 @@ class Dashboard extends Component {
                         </div>
                     </div>
                     <BooksOutputComponent
-                        isFetching={isFetching}
-                        books={books}
+                        isFetching={isFetchingOutput}
+                        books={allBooks}
                         selectedCategory={selectedCategory}
                         dispatch={dispatch}/>
 
@@ -65,7 +67,9 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
     books: PropTypes.array,
-    isFetching: PropTypes.bool.isRequired,
+    allBooks: PropTypes.array,
+    isFetchingSearch: PropTypes.bool.isRequired,
+    isFetchingOutput: PropTypes.bool.isRequired,
     page: PropTypes.number.isRequired,
     categories: PropTypes.array.isRequired,
     selectedCategory: PropTypes.object,
@@ -82,11 +86,17 @@ function mapStateToProps (state) {
     } = state.categories;
     const {
         data: books,
-        isFetching,
+        isFetching: isFetchingSearch,
     } = state.books;
+    const {
+        data: allBooks,
+        isFetching: isFetchingOutput,
+    } = state.allBooks;
 
     return {
-        isFetching,
+        allBooks,
+        isFetchingSearch,
+        isFetchingOutput,
         books,
         errorMessage,
         page,

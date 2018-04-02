@@ -5,7 +5,7 @@ import {
     axiosEditCategory
 } from '../../actions'
 import CategoryEdit from './CategoryEdit'
-import BookSearchElement from './BookSearchElement'
+import BookElement from './BookElement'
 
 export default class BooksOutputComponent extends Component {
 
@@ -38,11 +38,13 @@ export default class BooksOutputComponent extends Component {
                     </div>
 
                 </div>
-                { isFetching ? '' : books.map(book => (
-                    <BookSearchElement
-                        key={book._id}
-                        book={book}/>
-                )) }
+                <div className="row d-flex align-items-stretch">
+                    { isFetching ? '' : books.map(book => (
+                        <BookElement
+                            key={book._id}
+                            book={book}/>
+                    )) }
+                </div>
             </div>
         )
     }

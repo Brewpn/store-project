@@ -31,6 +31,7 @@ export default class Login extends Component {
                             }
                             <button
                                 onClick={(event) => this.handleClick(event)}
+                                type="button"
                                 className={isFetching? "btn btn-outline-dark disabled" : "btn btn-outline-dark"}>
                                 Login
                             </button>
