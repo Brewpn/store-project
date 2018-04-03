@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import {
     getCategories,
     selectCategory,
@@ -18,13 +18,37 @@ class BookContainer extends Component {
 
     }
 
-    componentWillMount () {
+    static propTypes = {
+        books: PropTypes.array,
+        allBooks: PropTypes.array,
+        isFetchingSearch: PropTypes.bool.isRequired,
+        isFetchingOutput: PropTypes.bool.isRequired,
+        page: PropTypes.number.isRequired,
+        categories: PropTypes.array.isRequired,
+        selectedBook: PropTypes.object.isRequired,
+        selectedCategory: PropTypes.object,
+        errorMessage: PropTypes.string,
+        dispatch: PropTypes.func.isRequired,
+    };
+
+    componentWillMount() {
         this.props.dispatch(getCategories());
         this.props.dispatch(outputBookByCategory());
     }
 
-    render () {
-        const { categories, selectedCategory, dispatch, page, errorMessage, books, isFetchingSearch,isFetchingOutput, allBooks } = this.props;
+    render() {
+        const {
+            categories,
+            selectedCategory,
+            dispatch,
+            page,
+            errorMessage,
+            books,
+            isFetchingSearch,
+            isFetchingOutput,
+            allBooks,
+            selectedBook
+        } = this.props;
 
         return (
             <div className="container">
@@ -47,6 +71,8 @@ class BookContainer extends Component {
                             <div className="collapse" id="collapseSearch">
                                 { isFetchingSearch ? '' : books.map(book => (
                                     <BookSearchElement
+                                        dispatch={dispatch}
+                                        selectedBook={selectedBook}
                                         key={book._id}
                                         book={book}/>
                                 )) }
@@ -54,6 +80,7 @@ class BookContainer extends Component {
                         </div>
                     </div>
                     <BooksOutputComponent
+                        selectedBook={selectedBook}
                         isFetching={isFetchingOutput}
                         books={allBooks}
                         selectedCategory={selectedCategory}
@@ -65,20 +92,9 @@ class BookContainer extends Component {
     }
 }
 
-BookContainer.propTypes = {
-    books: PropTypes.array,
-    allBooks: PropTypes.array,
-    isFetchingSearch: PropTypes.bool.isRequired,
-    isFetchingOutput: PropTypes.bool.isRequired,
-    page: PropTypes.number.isRequired,
-    categories: PropTypes.array.isRequired,
-    selectedCategory: PropTypes.object,
-    errorMessage: PropTypes.string,
-    dispatch: PropTypes.func.isRequired,
-};
-
-function mapStateToProps (state) {
-    const { selectedCategory, } = state;
+function mapStateToProps(state) {
+    const {selectedCategory,} = state;
+    const {selectedBook} = state;
     const {
         data: categories,
         page,
@@ -94,6 +110,7 @@ function mapStateToProps (state) {
     } = state.allBooks;
 
     return {
+        selectedBook,
         allBooks,
         isFetchingSearch,
         isFetchingOutput,

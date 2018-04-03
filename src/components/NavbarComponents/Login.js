@@ -11,8 +11,7 @@ export default class Login extends Component {
 
         this.state = {
             username: '',
-            password: '',
-            submitted: false
+            password: ''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -40,7 +39,7 @@ export default class Login extends Component {
 
     render() {
         const { errorMessage, isFetching } = this.props;
-        const { username, password, submitted } = this.state;
+        const { username, password } = this.state;
 
         return (
 

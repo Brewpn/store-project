@@ -9,7 +9,11 @@ export const BOOK_OUTPUT_REQUEST = 'BOOK_OUTPUT_REQUEST';
 export const BOOK_OUTPUT_SUCCESS = 'BOOK_OUTPUT_SUCCESS';
 export const BOOK_OUTPUT_FAILURE = 'BOOK_OUTPUT_FAILURE';
 
+export const BOOK_SELECTED = 'BOOK_SELECTED';
 export const BOOK_SEARCH = 'BOOK_SEARCH';
+export const BOOK_EDIT = 'BOOK_EDIT';
+export const BOOK_EDIT_IMAGE = 'BOOK_EDIT_IMAGE';
+
 export const BOOK_SEARCH_REQUEST = 'BOOK_SEARCH_REQUEST';
 export const BOOK_SEARCH_SUCCESS = 'BOOK_SEARCH_SUCCESS';
 export const BOOK_SEARCH_FAILURE = 'BOOK_SEARCH_FAILURE';
@@ -69,6 +73,7 @@ export function outputBookByCategory(category) {
 
         return AxiosBooks.get(category)
             .then(response => {
+
                 if (response.data.length === 0) {
                     dispatch(allBookError('No books in that category'));
                     return Promise.reject(response)
@@ -80,6 +85,34 @@ export function outputBookByCategory(category) {
                 dispatch(receiveAllBooks(data))
             });
     };
+}
+
+//BOOK SELECT
+
+export function selectBook (book) {
+    return {
+        type: BOOK_SELECTED,
+        book
+    }
+}
+
+//BOOK EDIT
+
+function editBook () {
+    return {
+        type: BOOK_EDIT,
+    }
+}
+
+
+
+export function axiosEditBook(book, image) {
+    return async dispatch => {
+
+        const logo = await AxiosBooks.editImage();
+
+        return
+    }
 }
 
 //BOOKS SEARCH

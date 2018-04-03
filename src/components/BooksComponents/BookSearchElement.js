@@ -1,15 +1,28 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {
-    searchBookByTitle
+    selectBook
 } from '../../actions'
 
 export default class BookSearchElement extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
 
+        this.handleClick = this.handleClick.bind(this)
     }
 
+    static propTypes = {
+        selectedBook: PropTypes.object.isRequired,
+        dispatch: PropTypes.func.isRequired,
+        book: PropTypes.object,
+    };
+
+    handleClick (event) {
+        event.preventDefault();
+        const { dispatch, book } = this.props;
+
+        dispatch(selectBook(book))
+    }
 
     render() {
         const {book} = this.props;
@@ -27,13 +40,16 @@ export default class BookSearchElement extends Component {
                         {book.description}
                         <footer className="blockquote-footer float-right">{book.author}</footer>
                     </div>
-                    <button className="btn btn-outline-dark btn-sm">Edit</button>
+                    <button
+                        onClick={this.handleClick}
+                        type="button"
+                        className="btn btn-dark btn-sm float-right"
+                        data-toggle="modal"
+                        data-target="#editBookModal">
+                        Edit
+                    </button>
                 </div>
             </div>
         )
     }
 }
-
-BookSearchElement.propTypes = {
-    book: PropTypes.object,
-};

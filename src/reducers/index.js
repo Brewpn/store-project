@@ -4,9 +4,10 @@ import { sessionReducer } from 'redux-react-session';
 
 import auth from './loginReducer'
 import { categories, selectedCategory } from './categoryReducer'
-import { books, allBooks } from './booksReducer'
+import { books, allBooks, selectedBook } from './booksReducer'
 
 const rootReducer = combineReducers({
+    selectedBook,
     selectedCategory,
     allBooks,
     books,

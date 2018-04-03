@@ -113,3 +113,14 @@ body {
   background-color: #eeeeee;
 }
 
+.drop-zone {
+  padding: 50px 35px;
+  text-align: center;
+  border: 5px #5d5d5d;
+  background-color: #dadada;
+  border-radius: 5px;
+}
+
+.card-interval {
+  margin-bottom: 10px;
+}

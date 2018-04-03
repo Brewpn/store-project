@@ -6,7 +6,19 @@ import {
     BOOK_OUTPUT_FAILURE,
     BOOK_OUTPUT_REQUEST,
     BOOK_OUTPUT_SUCCESS,
+    BOOK_SELECTED
 } from '../actions'
+
+export function selectedBook(state = {}, action) {
+    switch (action.type) {
+        case BOOK_SELECTED:
+            return Object.assign({},
+                state,
+                action.book);
+        default:
+            return state;
+    }
+}
 
 export function books(state = {
     isFetching: false,
