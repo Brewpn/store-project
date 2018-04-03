@@ -10,8 +10,8 @@ export const AxiosCategories = {
         });
     },
 
-    get (page, count = 3) {
-        return axios.get(`${BASE_URL}/cms/category/list?page=${page}&count=${count}`)
+    get (page) {
+        return axios.get(`${BASE_URL}/cms/category/list`)
     },
 
     edit (creds) {

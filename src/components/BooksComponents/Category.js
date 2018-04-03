@@ -9,7 +9,7 @@ export default class Categories extends Component {
         return (
             <button
                 type="button"
-                className="btn btn-secondary dropdown-toggle-split"
+                className="btn btn-secondary dropdown-item"
                 onClick={(event) => this.handleClick(event, category)}>
                 {category.title}
             </button>

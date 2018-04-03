@@ -35,13 +35,19 @@ export default class Categories extends Component {
                             onCategoryAddClick={creds => dispatch(createCategory(creds))}
                             dispatch={dispatch}/>
                         <div className="btn-group mr-2" role="group" aria-label="Second group" style={{zIndex: 1}}>
-                        <button
-                            type="button"
-                            className="btn btn-secondary"
-                            onClick={(event) => this.handleClickMinus(event)}>
-                            &laquo;
-                        </button>
+
                             <div className="btn-group">
+
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary dropdown-toggle"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                    aria-expanded="false">
+                                    Select Category
+                                </button>
+
+                                <div className="dropdown-menu">
                                 {
                                     categories.map(category => (
                                         <Category
@@ -51,27 +57,11 @@ export default class Categories extends Component {
                                     ))
                                 }
 
-                                <form className="dropdown-menu p-4">
-                                    <div className="form-group">
-                                        <h4>{selectedCategory ? selectedCategory.title : " "}</h4>
 
-                                    </div>
-                                    <div className="form-group">
-                                        { selectedCategory ? selectedCategory.description : " " }
-                                    </div>
-                                    <button
-                                        type="button"
-                                        className="btn btn-outline-dark">
-                                        Edit
-                                    </button>
-                                </form>
+                                </div>
+
                             </div>
-                        <button
-                            type="button"
-                            className="btn btn-secondary"
-                            onClick={(event) => this.handleClickPlus(event)}>
-                            &raquo;
-                        </button>
+
                         </div>
 
                 </div>

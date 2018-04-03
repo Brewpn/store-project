@@ -45,17 +45,23 @@ export default class BooksOutputComponent extends Component {
         return (
             <div>
                 <div className="row content-block">
-                    <div className="col">
+                    <div className="col-5">
 
                     </div>
-                    <div className="col">
-                        <h3 className="text-center">{_.isEmpty(selectedCategory) ? 'All Books' : selectedCategory.title}</h3>
+                    <div className="col-2">
+                        <h2
+                            data-toggle="modal"
+                            data-target="#editCategoryModal"
+                            className="text-center">
+                            {_.isEmpty(selectedCategory) ? 'All Books' : selectedCategory.title}
+                            </h2>
                     </div>
-                    <div className="col">
+                    <div className="col-5">
                         { !_.isEmpty(selectedCategory) &&
                             <div>
                                 <button
                                     onClick={this.handleClick}
+                                    style={{marginTop: "7px"}}
                                     type="button"
                                     className="close"
                                     data-dismiss="modal"
@@ -64,13 +70,13 @@ export default class BooksOutputComponent extends Component {
                                         &times;
                                     </span>
                                 </button>
-                                <button
+                                <a
+                                    style={{marginTop: "7px"}}
                                     type="button"
-                                    className="btn btn-outline-dark float-right"
                                     data-toggle="modal"
                                     data-target="#editCategoryModal">
-                                    Edit {selectedCategory.title}
-                                </button>
+                                    <img style={{width: "20px"}} src="https://cdn3.iconfinder.com/data/icons/google-material-design-icons/48/ic_mode_edit_48px-256.png"/>
+                                </a>
                                 <CategoryEdit
                                     onCategoryAddClick={creds => dispatch(axiosEditCategory(creds))}
                                     selectedCategory={selectedCategory}
