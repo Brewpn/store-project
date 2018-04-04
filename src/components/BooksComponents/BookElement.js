@@ -8,7 +8,24 @@ export default class BookSearchElement extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            inStockStyle: ''
+        };
+
         this.handleClick = this.handleClick.bind(this)
+    }
+
+    componentWillMount () {
+        switch(this.props.book.inStock){
+            case this.props.book.inStock < 50:
+                this.setState({ inStockStyle: 'badge-danger' });
+                break;
+            case this.props.book.inStock < 200:
+                this.setState({ inStockStyle: 'badge-warning' });
+                break;
+            default:
+                this.setState({ inStockStyle: 'badge-primary' });
+        }
     }
 
     static propTypes = {
@@ -25,23 +42,26 @@ export default class BookSearchElement extends Component {
 
     render() {
         const { book } = this.props;
+        const { inStockStyle } = this.state;
 
         return (
             <div className="col-md-3 d-flex flex-wrap card-interval">
                 <div className="card">
+
                     <img
                         className="card-img-top"
                         src={`https://bookey-st.herokuapp.com/mobile/image?filename=${book.logo}`}
-                        alt="https://bookey-st.herokuapp.com/mobile/image?filename=sdsdsds.jpg" />
+                        alt="Alt img" />
                     <div className="card-body">
                         <h5 className="card-title">{book.title}</h5>
                         <p style={{fontSize: "13px"}}>{book.description}</p>
                         <footer className="blockquote-footer float-right">{book.author}</footer>
                     </div>
                     <div className="card-footer">
-                        <small className="text-muted">
-                            Created: {`${new Date(book.createdBy.date).getDate()}.${new Date(book.createdBy.date).getMonth()+1}.${new Date(book.createdBy.date).getFullYear()}`}
-                        </small>
+                        {'$'+book.price+"   "}
+                        <span className={"badge " + inStockStyle}>
+                            {book.inStock}
+                        </span>
                         <button
                             onClick={this.handleClick}
                             type="button"

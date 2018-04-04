@@ -82,6 +82,7 @@ class BookContainer extends Component {
                     <BooksOutputComponent
                         selectedBook={selectedBook}
                         isFetching={isFetchingOutput}
+                        categories={categories}
                         books={allBooks}
                         selectedCategory={selectedCategory}
                         dispatch={dispatch}/>

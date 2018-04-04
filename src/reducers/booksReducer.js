@@ -6,8 +6,10 @@ import {
     BOOK_OUTPUT_FAILURE,
     BOOK_OUTPUT_REQUEST,
     BOOK_OUTPUT_SUCCESS,
-    BOOK_SELECTED
+    BOOK_SELECTED,
+    BOOK_EDIT
 } from '../actions'
+import _ from 'lodash'
 
 export function selectedBook(state = {}, action) {
     switch (action.type) {
@@ -66,6 +68,10 @@ export function allBooks(state = {
                 data: action.books,
                 errorMessage: ''
             });
+        case BOOK_EDIT:
+            return Object.assign({}, state,
+                _.update(state, `data[${_.findIndex(state.data, {'_id': action.book._id})}]`, () => action.book)
+            );
         case BOOK_OUTPUT_FAILURE:
             return Object.assign({}, state, {
                 errorMessage: action.errorMessage

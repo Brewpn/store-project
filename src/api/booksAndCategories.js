@@ -47,6 +47,21 @@ export const AxiosBooks = {
         })
             .then(response => response.data)
             .catch(err => console.log(err))
+    },
+
+    edit (editedBook) {
+        const { bookTitle, bookDescription, price, inStock, pageNum, author, logo, category } = editedBook;
+
+        return axios.put(`${BASE_URL}/cms/book/${editedBook._id}`, {
+            title: bookTitle,
+            description: bookDescription,
+            category,
+            logo,
+            price,
+            inStock,
+            pageNum,
+            author
+        })
     }
 
 };

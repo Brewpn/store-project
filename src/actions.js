@@ -12,7 +12,6 @@ export const BOOK_OUTPUT_FAILURE = 'BOOK_OUTPUT_FAILURE';
 export const BOOK_SELECTED = 'BOOK_SELECTED';
 export const BOOK_SEARCH = 'BOOK_SEARCH';
 export const BOOK_EDIT = 'BOOK_EDIT';
-export const BOOK_EDIT_IMAGE = 'BOOK_EDIT_IMAGE';
 
 export const BOOK_SEARCH_REQUEST = 'BOOK_SEARCH_REQUEST';
 export const BOOK_SEARCH_SUCCESS = 'BOOK_SEARCH_SUCCESS';
@@ -83,7 +82,8 @@ export function outputBookByCategory(category) {
             })
             .then(data => {
                 dispatch(receiveAllBooks(data))
-            });
+            })
+            .catch(error => console.log(error));
     };
 }
 
@@ -98,9 +98,10 @@ export function selectBook (book) {
 
 //BOOK EDIT
 
-function editBook () {
+function editBook (book) {
     return {
         type: BOOK_EDIT,
+        book
     }
 }
 
@@ -109,9 +110,18 @@ function editBook () {
 export function axiosEditBook(book, image) {
     return async dispatch => {
 
-        const logo = await AxiosBooks.editImage();
+        const logo = await AxiosBooks.editImage(image);
+        book.logo = logo.name;
 
-        return
+        return await AxiosBooks.edit(book)
+            .then(response => {
+                if (response.status === 500) {
+                    dispatch(bookError('Something went wrong'));
+                    return Promise.reject(response)
+                }
+                dispatch(editBook(book))
+            })
+            .catch(err => console.log(err))
     }
 }
 

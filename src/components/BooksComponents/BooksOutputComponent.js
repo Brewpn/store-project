@@ -20,6 +20,7 @@ export default class BooksOutputComponent extends Component {
     static propTypes = {
         isFetching: PropTypes.bool.isRequired,
         books: PropTypes.array.isRequired,
+        categories: PropTypes.array.isRequired,
         selectedBook: PropTypes.object.isRequired,
         selectedCategory: PropTypes.object.isRequired,
         dispatch: PropTypes.func.isRequired,
@@ -40,7 +41,7 @@ export default class BooksOutputComponent extends Component {
     }
 
     render () {
-        const { selectedCategory, dispatch, isFetching, books, selectedBook } = this.props;
+        const { selectedCategory, dispatch, isFetching, books, selectedBook, categories } = this.props;
 
         return (
             <div>
@@ -95,9 +96,12 @@ export default class BooksOutputComponent extends Component {
                             book={book}/>
                     )) }
                 </div>
-                <BookEdit
-                    dispatch={dispatch}
-                    selectedBook={selectedBook}/>
+
+                    <BookEdit
+                        categories={categories}
+                        dispatch={dispatch}
+                        selectedBook={selectedBook}/>
+
             </div>
         )
     }
