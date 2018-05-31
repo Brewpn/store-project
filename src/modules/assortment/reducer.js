@@ -8,6 +8,7 @@ import {
     BOOK_OUTPUT_SUCCESS,
     BOOK_SELECTED,
     BOOK_EDIT,
+    BOOK_EDIT_REQUEST,
     CATEGORY_EDIT,
     CATEGORY_LIST_FETCH,
     CATEGORY_DELETE,
@@ -78,12 +79,21 @@ export function allBooks(state = {
                 data: action.books,
                 errorMessage: ''
             });
+        case BOOK_EDIT_REQUEST:
+            return Object.assign({}, state, {
+                isFetching: true
+            });
         case BOOK_EDIT:
             return Object.assign({}, state,
-                _.update(state, `data[${_.findIndex(state.data, {'_id': action.book._id})}]`, () => action.book)
+                _.update(state, `data[${_.findIndex(state.data, {'_id': action.book._id})}]`, () => action.book),
+                {
+                    isFetching: false
+                }
             );
         case BOOK_OUTPUT_FAILURE:
             return Object.assign({}, state, {
+                isFetching: false,
+                data: [],
                 errorMessage: action.errorMessage
             });
         default:

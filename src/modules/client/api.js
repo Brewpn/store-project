@@ -12,6 +12,13 @@ export const AxiosBooks = {
         let route = '';
         if (!!creds._id) route = `&filter%5Bcategory%5D%5B%5D=${creds._id}`;
         return axios.get(`${BASE_URL}/mobile/book/list?page=1&count=15${route}`)
+            .then((response) => {
+                if (response.data.length === 0) {
+                    throw new Error('No books in that category');
+                }
+
+                return response.data;
+            })
     },
 
 };

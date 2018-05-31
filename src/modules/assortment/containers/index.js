@@ -1,1 +1,1 @@
-export { default as Assortment } from './MainContainer'
+export { default as Assortment } from './AssortmentContainer'

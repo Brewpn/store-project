@@ -6,6 +6,7 @@ import {
     axiosEditBook
 } from '../actions'
 import Category from './Category'
+import {Loading} from './Loading'
 
 
 export default class BookEdit extends Component {
@@ -31,6 +32,7 @@ export default class BookEdit extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
     static  propTypes = {
+        isFetching: PropTypes.bool.isRequired,
         categories: PropTypes.array.isRequired,
         onEditBook: PropTypes.func.isRequired,
         dispatch: PropTypes.func.isRequired,
@@ -78,10 +80,8 @@ export default class BookEdit extends Component {
     handleSubmit(e) {
         e.preventDefault();
         let bookImg = new FormData(this.formRef);
-        this.state.files.forEach(file => {
-            bookImg.append('myFiles', file);
-        });
-        const { dispatch, selectedBook } = this.props;
+            bookImg.append('profileImage', this.state.files[0]);
+        const { selectedBook } = this.props;
         const { author, pageNum, price, inStock, bookTitle, bookDescription, changedCategory } = this.state;
         const { _id } = selectedBook;
         const category = changedCategory._id;
@@ -90,7 +90,7 @@ export default class BookEdit extends Component {
     }
 
     render () {
-        const { selectedBook, categories } = this.props;
+        const { selectedBook, categories, isFetching } = this.props;
         const { bookTitle, bookDescription, inStock, price, files, pageNum, author, changedCategory } = this.state;
 
         return (
@@ -234,8 +234,10 @@ export default class BookEdit extends Component {
                         </div>
 
                         <div className="modal-footer">
+                            {isFetching && <Loading/>}
                             <button
                                 type="submit"
+                                disabled={isFetching}
                                 onClick={this.handleSubmit}
                                 className="btn btn-primary">
                                 Edit Book

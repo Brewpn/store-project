@@ -1,11 +1,15 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {
-    outputBookByFilter
+    requestBooksByFilter,
+    selectBook,
+    bookInCart
 } from '../actions'
+import {LoadingCircle} from '../components/LoadingCircle'
 import Book from '../components/Book'
+import BookDetails from './BookDetails'
+import Cart from './Cart'
 
 class Books extends Component {
 
@@ -15,21 +19,47 @@ class Books extends Component {
         dispatch: PropTypes.func.isRequired
     };
 
-    componentWillMount() {
-        this.props.dispatch(outputBookByFilter())
+    componentDidMount() {
+        this.props.dispatch(requestBooksByFilter())
     }
+
+    state = {
+        openBook: false,
+    };
+
+    onReadMoreOpen = (book) => {
+        this.props.dispatch(selectBook(book));
+        this.setState({openBook: true});
+    };
+
+    onReadMoreClose = (book) => {
+        this.props.dispatch(bookInCart(book));
+        this.setState({openBook: false});
+    };
 
     render() {
         const {books, isFetching} = this.props;
-        console.log(books);
+        const {openBook} = this.state;
+
         return (
-            <div>
-                { isFetching ? '' : books.map(book => (
-                        <Book
-                            key={book._id}
-                            book={book}/>
-                    )
-                )}
+            <div className="container">
+                <Cart/>
+                <div className="content-block">
+                    { isFetching && <LoadingCircle />}
+                    <div className="row">
+                        { isFetching
+                            ? ''
+                            : books.map(book => (
+                                <Book
+                                    onReadMoreOpen={this.onReadMoreOpen}
+                                    key={book._id}
+                                    book={book}/>))
+                        }
+                    </div>
+                    <BookDetails
+                        open={openBook}
+                        onReadMoreClose={this.onReadMoreClose}/>
+                </div>
             </div>
         )
     }

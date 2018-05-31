@@ -10,6 +10,7 @@ import {
 import CategoryEdit from '../components/CategoryEdit'
 import BookElement from '../components/BookElement'
 import BookEdit from '../components/BookEdit'
+import {LoadingCircle} from '../components/Loading'
 
 export default class BooksOutputComponent extends Component {
     constructor(props) {
@@ -89,8 +90,11 @@ export default class BooksOutputComponent extends Component {
                     </div>
 
                 </div>
+                {isFetching && <LoadingCircle/>}
                 <div className="row d-flex align-items-stretch">
-                    { isFetching ? '' : books.map(book => (
+                    { isFetching
+                        ? ''
+                        : books.map(book => (
                         <BookElement
                             dispatch={dispatch}
                             key={book._id}
@@ -99,6 +103,7 @@ export default class BooksOutputComponent extends Component {
                 </div>
 
                     <BookEdit
+                        isFetching={isFetching}
                         categories={categories}
                         onEditBook={(editedBook, bookImg) => dispatch(axiosEditBook(editedBook, bookImg))}
                         dispatch={dispatch}

@@ -2,19 +2,17 @@ import React, { Component } from 'react'
 import { syncHistoryWithStore } from 'react-router-redux'
 import { Router, Route, Switch } from 'react-router'
 import { Provider } from 'react-redux'
-import browserHistory from '../../utils/history'
+import { history } from '../../utils/history'
 import configureStore from '../../utils/configureStore'
 import { sessionService } from 'redux-react-session';
 
-import BookContainer from '../../modules/assortment/containers/MainContainer'
+import BookContainer from '../../modules/assortment/containers/AssortmentContainer'
 import MainTheme from '../../modules/header/cms/containers/Navbar'
 import Dashboard from './Dashboard'
 
 import ClientMainTheme from './ClientMainTheme'
 
 const store = configureStore();
-
-const history = syncHistoryWithStore(browserHistory, store);
 
 const PrimaryLayout = () => (
     <div>

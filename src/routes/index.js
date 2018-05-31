@@ -1,22 +1,16 @@
 import React, { Component } from 'react'
 import { Route, Switch } from 'react-router'
 
-import BookContainer from '../modules/client/containers/MainContainer'
-import MainTheme from '../modules/header/cms/containers/Navbar'
+import CmsContainer from '../modules/assortment/containers/MainContainer'
+import ClientContainer from '../modules/client/containers/MainContainer'
 
-
-const PrimaryLayout = () => (
-    <div>
-        <Route path="/admin" component={MainTheme} />
-        <Route path="/admin/Books" component={BookContainer} />
-    </div>
-);
 
 export default class Routes extends Component {
     render() {
         return (
             <Switch>
-                <PrimaryLayout/>
+                {/*<Route exact path="/" component={ClientContainer} />*/}
+                <Route path="/admin" component={CmsContainer} />
             </Switch>
         )
     }

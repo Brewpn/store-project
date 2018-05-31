@@ -7,6 +7,7 @@ export const BOOK_OUTPUT_FAILURE = 'BOOK_OUTPUT_FAILURE';
 export const BOOK_SELECTED = 'BOOK_SELECTED';
 export const BOOK_SEARCH = 'BOOK_SEARCH';
 export const BOOK_EDIT = 'BOOK_EDIT';
+export const BOOK_EDIT_REQUEST = 'BOOK_EDIT_REQUEST';
 
 export const BOOK_SEARCH_REQUEST = 'BOOK_SEARCH_REQUEST';
 export const BOOK_SEARCH_SUCCESS = 'BOOK_SEARCH_SUCCESS';
@@ -80,6 +81,12 @@ export function selectBook (book) {
 
 //BOOK EDIT
 
+function editBookRequest() {
+    return {
+        type: BOOK_EDIT_REQUEST
+    }
+}
+
 function editBook (book) {
     return {
         type: BOOK_EDIT,
@@ -91,10 +98,10 @@ function editBook (book) {
 
 export function axiosEditBook(book, image) {
     return async dispatch => {
-
+        dispatch(editBookRequest());
         const logo = await AxiosBooks.editImage(image);
         book.logo = logo.name;
-        console.log(logo.name);
+
         return await AxiosBooks.edit(book)
             .then(response => {
                 if (response.status === 500) {

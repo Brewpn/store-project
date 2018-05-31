@@ -45,31 +45,30 @@ export default class BookSearchElement extends Component {
         const { inStockStyle } = this.state;
 
         return (
-            <div className="col-md-3 d-flex flex-wrap card-interval">
-                <div className="card">
-
-                    <img
-                        className="card-img-top"
-                        src={`https://bookey-st.herokuapp.com/mobile/image?filename=${book.logo}`}
-                        alt="Alt img" />
-                    <div className="card-body">
-                        <h5 className="card-title">{book.title}</h5>
-                        <p style={{fontSize: "13px"}}>{book.description}</p>
-                        <footer className="blockquote-footer float-right">{book.author}</footer>
+            <div className="client-book-card card-book col-sm-4">
+                <div className="wrapper"  style={{background: `url(https://bookey-st.herokuapp.com/mobile/image?filename=${book.logo}) center / cover no-repeat`}}>
+                    <div className="book-header">
+                        <div className="date">
+                            <h5><span className="badge badge-primary">${book.price}</span></h5>
+                        </div>
+                        <ul className="menu-content">
+                            <li><a href="#" className="fa fa-comment-o"><span>{book.inStock}</span></a></li>
+                        </ul>
                     </div>
-                    <div className="card-footer">
-                        {'$'+book.price+"   "}
-                        <span className={"badge " + inStockStyle}>
-                            {book.inStock}
-                        </span>
-                        <button
-                            onClick={this.handleClick}
-                            type="button"
-                            className="btn btn-dark btn-sm float-right"
-                            data-toggle="modal"
-                            data-target="#editBookModal">
-                            Edit
-                        </button>
+                    <div className="data">
+                        <div className="content-data">
+                            <span className="book-author">{book.author}</span>
+                            <h1 className="book-title"><a href="#">{book.title}</a></h1>
+                            <p className="book-text">{book.description}</p>
+                            <button
+                                onClick={this.handleClick}
+                                type="button"
+                                className="button btn-info btn-sm float-right"
+                                data-toggle="modal"
+                                data-target="#editBookModal">
+                                Edit
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

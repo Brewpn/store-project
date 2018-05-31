@@ -2,8 +2,12 @@ import {
     BOOK_BY_FILTER_FAILURE,
     BOOK_BY_FILTER_REQUEST,
     BOOK_BY_FILTER_SELECTED,
-    BOOK_BY_FILTER_SUCCESS
+    BOOK_BY_FILTER_SUCCESS,
+    BOOK_IN_CART,
+    BOOK_SELECTED,
+    BOOK_REMOVE_FROM_CART,
 } from './actions'
+import _ from 'lodash'
 
 //=====================
 //BOOK REDUCER      |||
@@ -23,7 +27,8 @@ export function clientSelectedBook(state = {}, action) {
 export function booksByFilter(state = {
     isFetching: false,
     errorMessage: '',
-    data: []
+    data: [],
+    selectedBook: {}
 }, action) {
     switch (action.type) {
         case BOOK_BY_FILTER_REQUEST:
@@ -40,7 +45,30 @@ export function booksByFilter(state = {
             return Object.assign({}, state, {
                 errorMessage: action.errorMessage
             });
+        case BOOK_SELECTED:
+            return Object.assign({}, state, {
+                selectedBook: action.book
+            });
         default:
             return state
+    }
+}
+
+//=====================
+//CART REDUCER      |||
+//=====================
+
+export function cart(state = {
+    data: []
+}, action) {
+    switch (action.type) {
+        case BOOK_IN_CART:
+            return Object.assign({}, state, state.data.push(action.book));
+        case BOOK_REMOVE_FROM_CART:
+            return Object.assign({}, state, {
+                data: []
+            });
+        default:
+            return state;
     }
 }

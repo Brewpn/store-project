@@ -4,7 +4,7 @@ import { sessionReducer } from 'redux-react-session';
 
 import { reducer as auth} from './header/cms/index'
 import { categories, selectedCategory, books, allBooks, selectedBook } from './assortment/reducer'
-import { clientSelectedBook, booksByFilter } from './client/reducer'
+import { clientSelectedBook, booksByFilter, cart } from './client/reducer'
 
 const rootReducer = combineReducers({
     selectedBook,
@@ -14,6 +14,8 @@ const rootReducer = combineReducers({
     categories,
     auth,
     booksByFilter,
+    cart,
+    clientSelectedBook,
     session: sessionReducer,
     routing: routerReducer
 });

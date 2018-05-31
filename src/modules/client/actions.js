@@ -6,14 +6,44 @@ export const BOOK_BY_FILTER_REQUEST = 'BOOK_BY_FILTER_REQUEST';
 export const BOOK_BY_FILTER_SUCCESS = 'BOOK_BY_FILTER_SUCCESS';
 export const BOOK_BY_FILTER_FAILURE = 'BOOK_BY_FILTER_FAILURE';
 
-function requestBooksByFilter() {
+export const BOOK_SELECTED = "BOOK_SELECTED";
+export const BOOK_IN_CART = "BOOK_IN_CART";
+export const BOOK_REMOVE_FROM_CART = "BOOK_REMOVE_FROM_CART";
+
+/*===============================
+ * CART
+ *  ADD
+ *  REMOVE
+ * ==============================*/
+
+export function bookInCart (book) {
+    return {
+        type: BOOK_IN_CART,
+        book
+    }
+}
+
+export function removeBookFromCart () {
+    return {
+        type: BOOK_REMOVE_FROM_CART,
+    }
+}
+
+/*===============================
+* BOOKS
+*   REQUEST
+*   RECEIVE
+*   FAILURE
+* ==============================*/
+
+export function requestBooksByFilter() {
     return {
         type: BOOK_BY_FILTER_REQUEST,
         isFetching: true,
     }
 }
 
-function receiveBooksByFilter(books) {
+export function receiveBooksByFilter(books) {
     return {
         type: BOOK_BY_FILTER_SUCCESS,
         isFetching: false,
@@ -21,7 +51,7 @@ function receiveBooksByFilter(books) {
     }
 }
 
-function failureBooksRequest(errorMessage) {
+export function failureBooksRequest(errorMessage) {
     return {
         type: BOOK_BY_FILTER_FAILURE,
         isFetching: false,
@@ -57,6 +87,13 @@ export function outputBookByFilter(category) {
 export function selectBookByFilter (book) {
     return {
         type: BOOK_BY_FILTER_SELECTED,
+        book
+    }
+}
+
+export function selectBook (book) {
+    return {
+        type: BOOK_SELECTED,
         book
     }
 }

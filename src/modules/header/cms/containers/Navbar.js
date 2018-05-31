@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import Login from '../components/Login';
 import Logout from '../components/Logout'
 import {
@@ -55,8 +55,8 @@ class MainTheme extends Component {
                             </li>
                             <li className="nav-item active">
                                 <Link
-                                    to="/admin/Books"
-                                    className="nav-link navbar-font-color">Books</Link>
+                                    to="/admin/Assortment"
+                                    className="nav-link navbar-font-color">Assortment</Link>
                             </li>
                         </ul>
                         <form className="form-inline my-2 my-lg-0">
@@ -95,4 +95,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(MainTheme)
+export default withRouter(connect(mapStateToProps)(MainTheme))

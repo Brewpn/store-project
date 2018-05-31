@@ -1,3 +1,9 @@
-export { clientSelectedBook, booksByFilter } from './reducer';
-export * as actions from './actions';
-export * as containers from './containers';
+export { clientSelectedBook, booksByFilter, cart } from './reducer';
+export {
+    requestBooksByFilter,
+    receiveBooksByFilter,
+    failureBooksRequest,
+    selectBookByFilter,
+    bookInCart
+} from './actions';
+export { default as saga } from './saga';
